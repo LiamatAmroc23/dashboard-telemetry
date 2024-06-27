@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,19 @@ namespace dashboard_telemetry
         private void button1_Click(object sender, EventArgs e)
         {
             button_open.Text = "Opened";
+            button_open.Enabled = true;
+            button_close.Enabled = false;
+            try
+            {
+                serialPort1.PortName = comboBox_port.Text;
+                serialPort1.Open();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         /// <summary>
@@ -37,8 +51,10 @@ namespace dashboard_telemetry
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] ports = SerialPort.GetPortNames();
-            comboBox_port.Items.AddRange(ports);
-            comboBox_port.SelectedIndex = 0;
+            foreach (string port in ports)
+            {
+                comboBox_port.Items.Add(port);
+            }
             button_close.Enabled = false;
         }
 
@@ -46,16 +62,7 @@ namespace dashboard_telemetry
         {
             button_open.Enabled = false;
             button_close.Enabled = true;
-            try
-            {
-                serialPort1.PortName = comboBox_port.Text;
-                serialPort1.Open();
-                
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            serialPort1.Close();
 
         }
 
@@ -71,10 +78,23 @@ namespace dashboard_telemetry
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            serialPort1.BaudRate = Convert.ToInt32(comboBoxbaud.Text);
+            if (serialPort1.IsOpen)
+            {
+                tBoxDataIN.Text = serialPort1.ReadExisting();
+            }
+        }
+        private void chart7_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void chart7_Click(object sender, EventArgs e)
+        private void label_port_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox_port_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
