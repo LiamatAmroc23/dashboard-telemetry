@@ -26,7 +26,7 @@ namespace dashboard_telemetry
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            button_open.Text = "Hello";
+            button_open.Text = "Opened";
         }
 
         /// <summary>
@@ -56,6 +56,26 @@ namespace dashboard_telemetry
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        private void textBox_Recieve_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart7_Click(object sender, EventArgs e)
+        {
 
         }
     }
