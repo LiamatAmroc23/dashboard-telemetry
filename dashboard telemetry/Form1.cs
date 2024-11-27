@@ -30,6 +30,7 @@ namespace dashboard_telemetry
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
+            button_close.Text = "Close";
             button_open.Text = "Opened";
             button_open.Enabled = true;
             button_close.Enabled = false;
@@ -64,6 +65,8 @@ namespace dashboard_telemetry
 
         private void button_close_Click(object sender, EventArgs e)
         {
+            button_open.Text = "Open";
+            button_close.Text = "Closed";
             button_open.Enabled = false;
             button_close.Enabled = true;
             serialPort1.Close();
@@ -77,10 +80,16 @@ namespace dashboard_telemetry
         
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+
             {
-                 tBoxDataIN.Text = serialPort1.ReadLine();
+                string packet = serialPort1.ReadLine();
+                string[] data = packet.Split(',');
+                tBoxDataIN.Text = packet;
                 timer1.Tick += timer1_Tick;
+                chart4.Series["Temp"].Points.AddXY(data[0], data[1]);
+                chart10.Series["Pressure"].Points.AddXY(data[0], data[2]);
+                chart5.Series["Altitude"].Points.AddXY(data[0], data[3]);
+                chart5.Series["Apogee"].Points.AddXY(data[0], data[4]);
             }
         }
 
@@ -94,11 +103,7 @@ namespace dashboard_telemetry
             {
                 if (serialPort1.IsOpen)
                 {
-                            //System.Timers.Timer dataTimer = new System.Timers.Timer();
-                            //dataTimer.Elapsed += new ElapsedEventHandler(ReadData);
-                            //dataTimer.Interval = 100;
-                            // dataTimer.Enabled = true;
-                            //tBoxDataIN.Text = serialPort1.ReadLine();
+                          
                             timer1.Enabled = true;
                     
                    
@@ -111,8 +116,6 @@ namespace dashboard_telemetry
         private static void ReadData(object source, ElapsedEventArgs e)
         {
           
-               // tBoxDataIN.Text = serialPort1.ReadLine();
-               // Console.WriteLine("Hello World!");
 
         } 
 
@@ -127,6 +130,11 @@ namespace dashboard_telemetry
         }
 
         private void comboBox_port_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart4_Click(object sender, EventArgs e)
         {
 
         }
