@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Timers;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dashboard_telemetry
 {
@@ -17,7 +20,7 @@ namespace dashboard_telemetry
         public Form1()
         {
             InitializeComponent();
-            Text = "Dashboard ver. 1";
+            Text = "Telemetry Dashboard V1.0";
         }
 
         /// <summary>
@@ -40,6 +43,7 @@ namespace dashboard_telemetry
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            serialPort1.BaudRate = Convert.ToInt32(comboBoxbaud.Text);
 
         }
 
@@ -70,20 +74,48 @@ namespace dashboard_telemetry
         {
 
         }
-
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            
+            {
+                 tBoxDataIN.Text = serialPort1.ReadLine();
+                timer1.Tick += timer1_Tick;
+            }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            serialPort1.BaudRate = Convert.ToInt32(comboBoxbaud.Text);
-            if (serialPort1.IsOpen)
+           if(button_open.Enabled == true)
             {
-                tBoxDataIN.Text = serialPort1.ReadExisting();
+                  receive.Enabled = true;
             }
+            if (receive.Enabled == true)
+            {
+                if (serialPort1.IsOpen)
+                {
+                            //System.Timers.Timer dataTimer = new System.Timers.Timer();
+                            //dataTimer.Elapsed += new ElapsedEventHandler(ReadData);
+                            //dataTimer.Interval = 100;
+                            // dataTimer.Enabled = true;
+                            //tBoxDataIN.Text = serialPort1.ReadLine();
+                            timer1.Enabled = true;
+                    
+                   
+                }
+            }
+            
+
         }
+
+        private static void ReadData(object source, ElapsedEventArgs e)
+        {
+          
+               // tBoxDataIN.Text = serialPort1.ReadLine();
+               // Console.WriteLine("Hello World!");
+
+        } 
+
         private void chart7_Click(object sender, EventArgs e)
         {
 
