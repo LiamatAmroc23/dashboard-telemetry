@@ -85,11 +85,13 @@ namespace dashboard_telemetry
                 string packet = serialPort1.ReadLine();
                 string[] data = packet.Split(',');
                 tBoxDataIN.Text = packet;
+                textBox2.Text = data[4];
                 timer1.Tick += timer1_Tick;
                 chart4.Series["Temp"].Points.AddXY(data[0], data[1]);
                 chart10.Series["Pressure"].Points.AddXY(data[0], data[2]);
                 chart5.Series["Altitude"].Points.AddXY(data[0], data[3]);
                 chart5.Series["Apogee"].Points.AddXY(data[0], data[4]);
+
             }
         }
 
@@ -135,6 +137,11 @@ namespace dashboard_telemetry
         }
 
         private void chart4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
